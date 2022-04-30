@@ -1,0 +1,9 @@
+maquina_vendas=({S,A,B,C},{e,s,b,c,u,m},prod,S)
+prod
+S -> eB
+S -> sA
+S -> bC
+S ->
+A -> uS
+B -> mS
+C -> cS
