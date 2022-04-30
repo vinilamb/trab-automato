@@ -17,4 +17,4 @@ prod_name_line = ident('line_prod')
 
 prod = Group(var('lhs') + '->' + Combine((term + Opt(var)) | Empty())('rhs'))
 
-full_grammar_file: ParserElement = machine_line + prod_name_line + ZeroOrMore(prod)('productions')
+arquivo_definicao_glud: ParserElement = machine_line + prod_name_line + ZeroOrMore(prod)('productions')
