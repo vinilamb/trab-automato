@@ -1,8 +1,8 @@
 from collections import defaultdict
 from typing import DefaultDict, Tuple, List, Set, Union
 
-from simbolo import Simbolo
-from estado import Estado
+from .simbolo import Simbolo
+from .estado import Estado
 
 class TransicaoError(Exception):
     pass
@@ -60,8 +60,6 @@ class TabelaTransicoes:
             fecho = fecho.union(self.fecho_vazio(e))
         return fecho
 
-
-
     def tem_transicoes_vazias(self):
         for _, s, _ in self.obter_transicoes():
             if s == Simbolo.Vazio:
@@ -81,9 +79,5 @@ class TabelaTransicoes:
         for e, dict2 in self.dict.items():
             for s, e2 in dict2.items():
                 for t in e2:
-                    result.append((e, s, t))
+                    result.append(Transicao(e, s, t))
         return result
-
-t = Transicao(Estado('qf'), Simbolo('b'), Estado('q33'))
-
-print(t.is_vazia())

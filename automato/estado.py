@@ -17,3 +17,6 @@ class Estado:
 
     def __str__(self) -> str:
         return self.valor
+
+    def __repr__(self) -> str:
+        return f"Estado('{self.valor}')"

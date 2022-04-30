@@ -1,5 +1,5 @@
 from typing import List, Set, Tuple
-from automato.automato import AFNFunc, Estado, Simbolo, AFN, Transicao
+from automato.automato import Transicao, Simbolo, Estado, AFN, AFNFunc
 from gramatica.glud import full_grammar_file
 
 def glud_para_automato(arquivo_glud):
@@ -15,41 +15,38 @@ def glud_para_automato(arquivo_glud):
     if nome_prod != line_prod:
         print(f"Não encontrado o conjunto de produções '{nome_prod}'")
 
-    Variaveis = set(parse_result['vars'])
-    Terminais = set(parse_result['terms'])
+    Variaveis = parse_result['vars']
+    Terminais = parse_result['terms']
     VariavelInicial = parse_result['start']
 
-    estado_final = 'Qf'
+    estado_final = Estado('Qf')
     transicoes: List[Transicao] = []
     for prod in parse_result['productions']:
         esq: str = prod['lhs']
         dir: str = prod['rhs']
-
+        
         tran = None
         if dir == '':
-            tran = (esq, '', estado_final)
+            tran = Transicao(Estado(esq), Simbolo.Vazio, estado_final)
         elif len(dir) == 1:
             if dir.islower():
-                tran = (esq, dir, estado_final)
+                tran = Transicao(Estado(esq), Simbolo(dir), estado_final)
             else:
-                tran = (esq, '', dir)
+                tran = (Transicao, Simbolo.Vazio, Estado(dir))
         elif len(dir) == 2:
             t, v = dir
-            tran = (esq, t, v)
+            tran = Transicao(Estado(esq), Simbolo(t), Estado(v))
 
         if tran == None:
             print('ERROR: Falha ao interpretar produção.')
         
         transicoes.append(tran)
         
-    Estados = set(Variaveis)
-    Estados.add(estado_final)
-
     funcaoPrograma = AFNFunc(transicoes)
 
     return AFN(
-        Alfabeto=Variaveis,
-        Estados=Estados,
+        Alfabeto=set([Simbolo(t) for t in Terminais]),
+        Estados=set([Estado(v) for v in Variaveis] + [estado_final]),
         EstadoInicial=VariavelInicial,
         EstadosFinais=set([estado_final]),
         FuncaoPrograma=funcaoPrograma
@@ -57,8 +54,4 @@ def glud_para_automato(arquivo_glud):
 
 afn = glud_para_automato('glud.txt')
 
-ok = afn.aceita('emememmeememem')
-if ok:
-    print('aceitou')
-else:
-    print('recusou')
+print(afn.FuncaoPrograma)
