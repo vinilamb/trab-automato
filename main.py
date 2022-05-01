@@ -1,10 +1,9 @@
 from typing import List, Set, Tuple
-from automato.automato import Transicao, Simbolo, Estado, AFN, AFNFunc
-from gramatica.glud import full_grammar_file
+from classes import arquivo_definicao_glud, Estado, Transicao, Simbolo, AFN, AFNFunc
 
 def glud_para_automato(arquivo_glud):
     print(f"Lendo definição da gludo do arquivo '{arquivo_glud}'")
-    parse_result = full_grammar_file.parse_file('glud.txt').as_dict()
+    parse_result = arquivo_definicao_glud.parse_file('glud.txt').as_dict()
 
     nome_glud = parse_result['name']
     nome_prod = parse_result['content_prod']

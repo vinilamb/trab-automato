@@ -1,12 +1,11 @@
 class Simbolo:
-
     def __init__(self, valor: str):
         if valor == 'ε':
             valor = ''
         if (len(valor) == 1 and valor.isalpha() and valor.islower()) or valor == '':
             self.char = valor
         else:
-            raise ValueError('String inválida como símbolo para autômato.')
+            raise ValueError("'{valor}' inválido como símbolo.")
     
     def __eq__(self, outro: object) -> bool:
         if not isinstance(outro, Simbolo):

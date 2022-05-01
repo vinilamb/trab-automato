@@ -1,4 +1,3 @@
-from typing import NamedTuple, List
 from pyparsing import *
 
 # Interpreta o arquivo de definição da GLUD.
