@@ -1,4 +1,6 @@
 from typing import List
+
+from pkg_resources import require
 from classes import arquivo_definicao_glud, Estado, Transicao, Simbolo, AFN, AFNFunc
 
 class GLUDError(Exception):
@@ -63,29 +65,53 @@ def glud_para_automato(arquivo_glud):
         FuncaoPrograma=funcaoPrograma
     )
 
+def encerrar():
+    print("Cancelando execução...")
+    exit(1)        
+
 if __name__ == '__main__':
     import argparse
 
-    parser = argparse.ArgumentParser(description='Reconhece palavras a partir de uma GLUD.')
+    parser = argparse.ArgumentParser(description='Reconhece palavras a partir de uma GLUD')
 
-    parser.add_argument('glud', metavar='G', help='Arquivo de texto com definição da gramática.')
+    parser.add_argument('glud', metavar='glud.txt', help='Arquivo de texto com definição da gramática')
 
-    parser.add_argument('palavras', metavar='P', nargs='+', help='Palavras para reconhecer')
+    parser.add_argument('-p', metavar='palavras', nargs='*', help='Palavras para reconhecer')
+    
+    parser.add_argument('-f', metavar='nome_arquivo', help="Arquivo com palavras")
 
     args = parser.parse_args()
-
+    
     try:
         afn = glud_para_automato(args.glud)
     except GLUDError as e:
         print(f"ERRO: {e}")
         print("Cancelando execução...")
-        exit(1)
+        exit(1)        
 
     if not afn.FuncaoPrograma.tabela.tem_ciclos(afn.EstadoInicial):
         print('A linguagem é infinita')
     else:
         print('A linguagem NÃO é infinita')
 
-    for p in args.palavras:
+    palavrasParaRodar = []
+    if args.p: 
+        palavrasParaRodar += args.p
+
+    if args.f:
+        try:
+            with open(args.f) as f:
+                palavrasParaRodar += [linha.strip() for linha in f.readlines()]
+        except:
+            print(f"Não foi possível abrir arquivo '{args.f}'")
+            encerrar()
+
+    if not palavrasParaRodar:
+        print('Sem palavras para testar aceitação.')
+        encerrar()
+
+    for p in palavrasParaRodar:
         aceita = 'Pertence' if afn.aceita(p) else 'NÃO pertence'
+        if p == '':
+            p = 'ε'
         print(f"{p} : {aceita}")
