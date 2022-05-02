@@ -81,7 +81,7 @@ if __name__ == '__main__':
     parser.add_argument('-f', metavar='nome_arquivo', help="Arquivo com palavras")
 
     args = parser.parse_args()
-    
+
     try:
         afn = glud_para_automato(args.glud)
     except GLUDError as e:

@@ -3,6 +3,7 @@ from typing import DefaultDict, Tuple, List, Set, Union
 
 from .simbolo import Simbolo
 from .estado import Estado
+from classes import estado
 
 class TransicaoError(Exception):
     pass
@@ -37,7 +38,7 @@ class TabelaTransicoes:
 
     # proximo_estado() para autômatos não determinísticos
     def obter_estados(self, estado: Estado, simbolo: Simbolo) -> Set[Estado]:
-        return self.dict[estado][simbolo]
+        return self.dict[estado][simbolo].copy()
 
     # Retorna todos os estados atingíveis por movimentos vazios.
     def fecho_vazio(self, estadoInicial: Set[Estado]) -> Set[Estado]:

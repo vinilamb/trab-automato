@@ -26,7 +26,7 @@ class AFNFunc:
 
         resultado = set()
         for e in estados:
-            resultado = self.tabela.obter_estados(e, simbolo)
+            resultado = resultado.union(self.tabela.obter_estados(e, simbolo))
 
         return self.tabela.fecho_vazio_conjunto(resultado)
 
@@ -41,11 +41,12 @@ class AFN(NamedTuple):
     FuncaoPrograma: AFNFunc
     EstadosFinais: Set[Estado]
 
-    def aceita(self, palavra):
+    def aceita(self, palavra: str):
+        simbolos  = [Simbolo.Vazio] if palavra == '' else [Simbolo(letra) for letra in palavra]
         estados = set([self.EstadoInicial])
 
-        for simbolo in [Simbolo(letra) for letra in palavra]:
-            estados = self.FuncaoPrograma(estados, simbolo)
+        for s in simbolos:
+            estados = self.FuncaoPrograma(estados, s)
 
         for e in estados:
             if e in self.EstadosFinais:
