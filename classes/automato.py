@@ -4,6 +4,7 @@ from typing import Callable, List, Set, Tuple, Union, NamedTuple, DefaultDict
 from .tabela_de_transicoes import TabelaTransicoes, Transicao
 from .estado import Estado
 from .simbolo import Simbolo
+from classes import estado
 
 class AFNFunc:
     tabela: TabelaTransicoes
@@ -17,10 +18,10 @@ class AFNFunc:
             txt += str(t) + '\n'
         return txt
 
-    def __call__(self, estados: Set[Estado], simbolo) -> Set[Estado]:
+    def __call__(self, estados: Set[Estado], simbolo: Simbolo) -> Set[Estado]:
         estados = self.tabela.fecho_vazio_conjunto(estados)
 
-        if simbolo == '':
+        if simbolo == Simbolo.Vazio:
             return estados
 
         resultado = set()
@@ -29,6 +30,8 @@ class AFNFunc:
 
         return self.tabela.fecho_vazio_conjunto(resultado)
 
+
+def set_str(set): return str(set) if len(set) >= 1 else '{}'
 
 # Autômato de estado finito não-determinístico com movimentos vazios
 class AFN(NamedTuple):
@@ -41,11 +44,8 @@ class AFN(NamedTuple):
     def aceita(self, palavra):
         estados = set([self.EstadoInicial])
 
-        for simbolo in palavra:
-            out = f"{estados}, {simbolo} -> "
+        for simbolo in [Simbolo(letra) for letra in palavra]:
             estados = self.FuncaoPrograma(estados, simbolo)
-            out += str(estados)
-            print(out)
 
         for e in estados:
             if e in self.EstadosFinais:

@@ -44,7 +44,7 @@ class TabelaTransicoes:
         fecho = set([estadoInicial])
 
         def percorre_vazias(e):
-            for e2 in self.dict[e]['']:
+            for e2 in self.dict[e][Simbolo.Vazio]:
                 if e2 not in fecho:
                     fecho.add(e2)
                     percorre_vazias(e2)
@@ -59,20 +59,12 @@ class TabelaTransicoes:
         for e in estados:
             fecho = fecho.union(self.fecho_vazio(e))
         return fecho
-
-    def tem_transicoes_vazias(self):
-        for _, s, _ in self.obter_transicoes():
-            if s == Simbolo.Vazio:
-                return True
-        else:
-             return False
-
-    def tem_nao_determinismo(self):
-        for t in self.dict.values():
-            for set in t.values():
-                if len(set) > 1:
-                    return False
-        return True
+        
+    def tem_ciclos(self, estadoInicial: Set[Simbolo]):
+        import networkx as nx
+        edges = [(e.valor, e2.valor) for e, _, e2 in self.obter_transicoes()]
+        G = nx.DiGraph(edges)
+        return nx.is_directed_acyclic_graph(G)
 
     def obter_transicoes(self) -> List[Transicao]:
         result = []
