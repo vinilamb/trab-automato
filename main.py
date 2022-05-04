@@ -4,9 +4,12 @@ from pkg_resources import require
 from classes import arquivo_definicao_glud, Estado, Transicao, Simbolo, AFN, AFNFunc
 
 class GLUDError(Exception):
+    """Exceção para lançar quando tem erro com a GLUD."""
     pass
 
 def glud_para_automato(arquivo_glud):
+    """Lê o arquivo GLUD e gera um autômato para reconhecê-la."""
+    
     print(f"Lendo definição da gludo do arquivo '{arquivo_glud}'")
     parse_result = arquivo_definicao_glud.parse_file(arquivo_glud).as_dict()
 

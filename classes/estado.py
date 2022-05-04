@@ -1,4 +1,5 @@
 class Estado:
+    """Representa o estado de um autômato. Este deve ser válido como um identifier no Python, ou será lançada exceção."""
     valor: str
 
     def __init__(self, valor: str):
