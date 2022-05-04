@@ -6,7 +6,7 @@ from classes import arquivo_definicao_glud, Estado, Transicao, Simbolo, AFN, AFN
 class GLUDError(Exception):
     """Exceção para lançar quando tem erro com a GLUD."""
     pass
-
+    
 def glud_para_automato(arquivo_glud):
     """Lê o arquivo GLUD e gera um autômato para reconhecê-la."""
     
