@@ -4,7 +4,6 @@ from typing import Callable, List, Set, Tuple, Union, NamedTuple, DefaultDict
 from .tabela_de_transicoes import TabelaTransicoes, Transicao
 from .estado import Estado
 from .simbolo import Simbolo
-from classes import estado
 
 class AFNFunc:
     tabela: TabelaTransicoes

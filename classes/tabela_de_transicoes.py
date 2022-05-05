@@ -3,7 +3,6 @@ from typing import DefaultDict, Tuple, List, Set, Union
 
 from .simbolo import Simbolo
 from .estado import Estado
-from classes import estado
 
 class TransicaoError(Exception):
     pass

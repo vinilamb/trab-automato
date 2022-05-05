@@ -1,7 +1,6 @@
 from typing import List
 
-from pkg_resources import require
-from classes import arquivo_definicao_glud, Estado, Transicao, Simbolo, AFN, AFNFunc
+from .classes import arquivo_definicao_glud, Estado, Transicao, Simbolo, AFN, AFNFunc
 
 class GLUDError(Exception):
     """Exceção para lançar quando tem erro com a GLUD."""
