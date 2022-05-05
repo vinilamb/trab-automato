@@ -1,5 +1,5 @@
 class Simbolo:
-    """Representa o símbolo do alfateto de um autômato ou a lista de terminais de uma GLUD.
+    """Representa o símbolo do alfabeto de um autômato ou a lista de terminais de uma GLUD.
     Os únicos valores válidos são letras minúsculas (a-z) e '' para representar o símbolo nulo.
     
     Passar ε no construtor gera Simbolo com valor == ''.
