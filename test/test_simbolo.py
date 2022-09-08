@@ -1,20 +1,16 @@
-from string import ascii_lowercase
 from unittest import TestCase
 
 from classes import Simbolo
 
 class TestSimbolo(TestCase):
-    def test_equality(self):
-        for letra in ascii_lowercase:
-            l1 = Simbolo(letra)
-            l2 = Simbolo(letra)
-            
-            self.assertTrue(l1 == l2, '__eq__ override')
-            self.assertTrue(hash(l1) == hash(l2), '__hash__ override')
+    def test_equals_operator_equality(self):
+        self.assertTrue(Simbolo('a') == Simbolo('a'))
 
-        self.assertFalse(Simbolo('a') == 'a')
-        self.assertTrue(Simbolo.Vazio == Simbolo(''))
+    def test_same_value_same_hash(self):
+        self.assertTrue(hash(Simbolo('a')) == hash(Simbolo('a')))
 
     def test_repr(self):
         self.assertTrue(repr(Simbolo('a') == "Simbolo('a')"))
+    
+    def test_repr_empty(self):    
         self.assertTrue(repr(Simbolo('') == "Simbolo.Vazio"))
